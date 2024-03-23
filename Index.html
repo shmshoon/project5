@@ -1,0 +1,185 @@
+project 5
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Page with Exercises</title>
+    <style>
+        /* Common CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .placeholder {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .placeholder img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .container {
+            display: flex;
+            flex: 1; /* Take up all available space */
+            max-width: 1000px; /* Set max-width to prevent content from extending too far */
+            width: 100%; /* Occupy full width */
+        }
+        .menu {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            width: 90px;
+            margin-right: 20px; /* Add space between menu and content */
+            position: relative; /* Adjust positioning */
+        }
+        .menu h2 {
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .menu ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 10px 0;
+        }
+        .menu li {
+            padding: 5px;
+            text-align: center;
+            position: relative;
+        }
+        .menu a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+        }
+        .menu a:hover {
+            background-color: #555;
+        }
+        .submenu {
+            display: none;
+            position: absolute;
+            top: calc(100% + 5px); /* Position below parent menu item */
+            left: 0;
+            background-color: #555;
+            width: 200px; /* Adjust as needed */
+            padding: 10px;
+            z-index: 1;
+            border-radius: 5px; /* Rounded corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
+        }
+        .submenu a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 8px 10px; /* Add padding */
+            transition: background-color 0.3s; /* Smooth hover transition */
+        }
+        .submenu a:hover {
+            background-color: #777;
+        }
+        .content {
+            flex: 1; /* Take up all available space */
+            padding: 20px;
+            overflow: auto; /* Allow content to overflow if necessary */
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Media Query for Phones */
+        @media screen and (max-width: 600px) {
+            .menu {
+                width: 100%; /* Occupy full width on phones */
+                margin-right: 0; /* Remove margin for phones */
+            }
+            .submenu {
+                width: 100%; /* Occupy full width on phones */
+            }
+            .container {
+                flex-direction: column; /* Stack menu and content vertically */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Placeholder Image -->
+    <div class="placeholder">
+        <img src="placeholder.jpg" alt="Placeholder Image">
+        <p>Welcome to my Project No. 4</p>
+    </div>
+    <!-- Container for Menu and Content -->
+    <div class="container">
+        <!-- Menu -->
+        <div class="menu" onmouseleave="hideSubMenu()">
+            <h2>Menu</h2>
+            <ul>
+                <li class="projects" onmouseenter="showSubMenu()" onclick="toggleSubMenu()">
+                    <a href="#">Projects</a>
+                    <div class="submenu">
+                        <ul>
+                            <li><a href="#" onclick="loadExercise('project1.html')">Project 1</a></li>
+                            <li><a href="#" onclick="loadExercise('project2.html')">Project 2</a></li>
+                            <li><a href="#" onclick="loadExercise('project3.html')">Project 3</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- Content -->
+        <div class="content">
+            <iframe id="exerciseFrame" name="exerciseFrame"></iframe>
+        </div>
+    </div>
+
+    <script>
+        function showSubMenu() {
+            var submenu = document.querySelector('.menu .submenu');
+            submenu.style.display = 'block';
+        }
+
+        function hideSubMenu() {
+            var submenu = document.querySelector('.menu .submenu');
+            submenu.style.display = 'none';
+        }
+
+        function toggleSubMenu() {
+            var submenu = document.querySelector('.menu .submenu');
+            submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function loadExercise(url) {
+            var iframe = document.getElementById('exerciseFrame');
+            iframe.src = url;
+
+            // AJAX request to fetch submenu content
+            var submenuId = url.replace('.html', '_submenu');
+            var submenu = document.getElementById(submenuId);
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        submenu.innerHTML = xhr.responseText;
+                    } else {
+                        submenu.innerHTML = 'Failed to load content.';
+                    }
+                }
+            };
+            xhr.open('GET', 'submenus/' + submenuId + '.html', true);
+            xhr.send();
+
+            // Hide submenu after loading exercise
+            var menu = document.querySelector('.menu .projects');
+            submenu.style.display = 'none';
+        }
+    </script>
+</body>
+</html>

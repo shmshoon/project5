@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Information Form</title>
+    <style>
+        .container {
+            margin: 20px;
+            width: 30%; /* Fixed width */
+            display: inline-block; /* Allow elements to sit side by side */
+            vertical-align: top; /* Align the form to the top */
+        }
+
+        #userForm {
+            width: 100%;
+        }
+
+        .table-row {
+            display: table-row;
+        }
+
+        .table-cell {
+            display: table-cell;
+            border: 1px solid black;
+            padding: 5px;
+            text-align: left;
+        }
+
+        .header {
+            font-weight: bold;
+        }
+
+        .input input,
+        .input select {
+            width: calc(100% - 12px); /* Adjusted width */
+        }
+
+        .button-cell button {
+            width: 50%; /* Fixed width */
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                width: 100%; /* Adjust to full width on small screens */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div id="userForm">
+        <div class="table-row">
+            <div class="table-cell header">First Name</div>
+            <div class="table-cell input"><input type="text" id="Fname" placeholder="Please enter your first name"></div>
+        </div>
+        <div class="table-row">
+            <div class="table-cell header">Last Name</div>
+            <div class="table-cell input"><input type="text" id="Lname" placeholder="Please enter your last name"></div>
+        </div>
+        <div class="table-row">
+            <div class="table-cell header">Age</div>
+            <div class="table-cell input">
+                <select id="age"></select>
+            </div>
+        </div>
+        <div class="table-row">
+            <div class="table-cell header">Sex</div>
+            <div class="table-cell input">
+                <input type="radio" name="gender" value="male" id="male"> Male
+                <input type="radio" name="gender" value="female" id="female"> Female
+            </div>
+        </div>
+        <div class="table-row">
+            <div class="table-cell header">Hobby</div>
+            <div class="table-cell input">
+                <input type="checkbox" id="hobby1"> Reading stars
+                <input type="checkbox" id="hobby2"> Writing black magic
+                <input type="checkbox" id="hobby3"> Swimming in space
+                <input type="checkbox" id="hobby4"> Flying to other worlds
+                <input type="checkbox" id="hobby5"> Other
+            </div>
+        </div>
+        <div class="table-row">
+            <div class="table-cell" colspan="2">
+                <button onclick="onOKButtonClick()">OK</button>
+            </div>
+            <div class="table-cell" colspan="2">
+                <button onclick="onCancelButtonClick()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var ageDropdown = document.getElementById('age');
+
+    // loop for age from 1 to 100 :P
+    for (var i = 1; i <= 100; i++) {
+        var option = document.createElement('option');
+        option.value = i;
+        option.text = i;
+        ageDropdown.add(option);
+    }
+
+    function onOKButtonClick() {
+        var Fname = document.getElementById('Fname').value;
+        var Lname = document.getElementById('Lname').value;
+        var age = document.getElementById('age').value;
+
+        var gender;
+        if (document.getElementById('male').checked) {
+            gender = 'Male';
+        } else if (document.getElementById('female').checked) {
+            gender = 'Female';
+        } else {
+            gender = 'Not specified';
+        }
+
+        var hobbies = [];
+        if (document.getElementById('hobby1').checked) {
+            hobbies.push('Reading stars');
+        }
+        if (document.getElementById('hobby2').checked) {
+            hobbies.push('Writing black magic');
+        }
+        if (document.getElementById('hobby3').checked) {
+            hobbies.push('Swimming in space');
+        }
+        if (document.getElementById('hobby4').checked) {
+            hobbies.push('Flying to other worlds');
+        }
+        if (document.getElementById('hobby5').checked) {
+            hobbies.push('Other');
+        }
+
+        alert('Name: ' + Fname + '\nLast Name: ' + Lname + '\nAge: ' + age + '\nGender: ' + gender + '\nHobbies: ' + hobbies.join(', '));
+    }
+
+    function onCancelButtonClick() {
+        alert('The operation was magically canceled :P');
+    }
+</script>
+
+</body>
+</html>
